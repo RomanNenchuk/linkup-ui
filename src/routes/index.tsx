@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -16,6 +16,7 @@ function App() {
       <Button variant="contained" color="primary">
         Click me
       </Button>
+      <Link to="/login">Login</Link>
     </Container>
   );
 }
