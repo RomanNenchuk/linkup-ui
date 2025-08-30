@@ -5,6 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
+import Header from "@/components/auth/Header";
 
 export const Route = createFileRoute("/confirm-email")({
   validateSearch: (search: Record<string, unknown>): { verificationToken?: string } => {
@@ -45,38 +46,41 @@ function ConfirmEmailPage() {
   }, [verificationToken]);
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" px={2}>
-      <Card sx={{ maxWidth: 400, width: "100%", p: 2 }}>
-        <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Verify Email
-          </Typography>
-
-          {!verificationToken && !isError && !isSuccess && !isPending && (
-            <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
-              Verification token is missing. Please check your email for the correct link.
-            </Alert>
-          )}
-
-          {isSuccess && (
-            <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-              Your email is verified. You can login now!
-            </Alert>
-          )}
-
-          {isError && (
-            <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
-              {(error as any)?.response?.data ?? "Failed to verify your email. Try later"}
-            </Alert>
-          )}
-
-          {isPending && (
-            <Typography align="center" color="text.secondary">
-              Verifying...
+    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", gap: 1 }}>
+      <Header />
+      <Box display="flex" justifyContent="center" alignItems="center" flexGrow={1} px={2}>
+        <Card sx={{ maxWidth: 400, width: "100%", p: 2 }}>
+          <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Typography variant="h4" align="center" gutterBottom>
+              Verify Email
             </Typography>
-          )}
-        </CardContent>
-      </Card>
+
+            {!verificationToken && !isError && !isSuccess && !isPending && (
+              <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
+                Verification token is missing. Please check your email for the correct link.
+              </Alert>
+            )}
+
+            {isSuccess && (
+              <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                Your email is verified. You can login now!
+              </Alert>
+            )}
+
+            {isError && (
+              <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
+                {(error as any)?.response?.data ?? "Failed to verify your email. Try later"}
+              </Alert>
+            )}
+
+            {isPending && (
+              <Typography align="center" color="text.secondary">
+                Verifying...
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 }
