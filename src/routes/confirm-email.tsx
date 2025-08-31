@@ -6,6 +6,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import Header from "@/components/auth/Header";
+import { extractApiErrorMessage } from "@/utils/extractErrorMessage";
 
 export const Route = createFileRoute("/confirm-email")({
   validateSearch: (search: Record<string, unknown>): { verificationToken?: string } => {
@@ -52,7 +53,7 @@ function ConfirmEmailPage() {
         <Card sx={{ maxWidth: 400, width: "100%", p: 2 }}>
           <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Typography variant="h4" align="center" gutterBottom>
-              Verify Email
+              Email Confirmation
             </Typography>
 
             {!verificationToken && !isError && !isSuccess && !isPending && (
@@ -69,7 +70,7 @@ function ConfirmEmailPage() {
 
             {isError && (
               <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
-                {(error as any)?.response?.data ?? "Failed to verify your email. Try later"}
+                {extractApiErrorMessage(error, "Failed to confirm your email. Try later")}
               </Alert>
             )}
 

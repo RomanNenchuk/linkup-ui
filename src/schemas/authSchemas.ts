@@ -26,7 +26,6 @@ const emailSchema = z
 
 export const resetPasswordSchema = z
   .object({
-    email: emailSchema,
     password: passwordSchema,
     confirmPassword: z.string().min(1, "Please confirm your password"),
   })

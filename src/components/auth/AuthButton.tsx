@@ -25,6 +25,7 @@ export default function AuthButton({ variant = "text" }: AuthButtonProps) {
       color="inherit"
       sx={{
         fontWeight: 500,
+        fontSize: 14,
         borderRadius: 0,
       }}
     >

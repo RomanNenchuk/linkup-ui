@@ -9,14 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProtectedVerifyEmailRouteImport } from './routes/_protected/verify-email'
 import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -25,6 +32,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfirmEmailRoute = ConfirmEmailRouteImport.update({
@@ -55,16 +67,20 @@ const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/confirm-email': typeof ConfirmEmailRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/profile': typeof ProtectedProfileRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/confirm-email': typeof ConfirmEmailRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/profile': typeof ProtectedProfileRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
 }
@@ -73,8 +89,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/confirm-email': typeof ConfirmEmailRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_protected/profile': typeof ProtectedProfileRoute
   '/_protected/verify-email': typeof ProtectedVerifyEmailRoute
 }
@@ -83,16 +101,20 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/confirm-email'
+    | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/profile'
     | '/verify-email'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/confirm-email'
+    | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/profile'
     | '/verify-email'
   id:
@@ -100,8 +122,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_protected'
     | '/confirm-email'
+    | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/_protected/profile'
     | '/_protected/verify-email'
   fileRoutesById: FileRoutesById
@@ -110,12 +134,21 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProtectedRoute: typeof ProtectedRouteWithChildren
   ConfirmEmailRoute: typeof ConfirmEmailRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -128,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confirm-email': {
@@ -186,8 +226,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProtectedRoute: ProtectedRouteWithChildren,
   ConfirmEmailRoute: ConfirmEmailRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

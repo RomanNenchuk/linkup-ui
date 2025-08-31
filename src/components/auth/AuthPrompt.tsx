@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 
 type AuthPromptProps = {
-  text: string;
+  text?: string;
   linkText: string;
   to: string;
 };
@@ -10,7 +10,7 @@ type AuthPromptProps = {
 export default function AuthPrompt({ text, linkText, to }: AuthPromptProps) {
   return (
     <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-      {text}{" "}
+      {text && `${text} `}
       <Box
         component={Link}
         to={to}

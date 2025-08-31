@@ -8,31 +8,37 @@ import AuthPrompt from "@/components/auth/AuthPrompt";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/api/auth";
 import Header from "@/components/auth/Header";
+import { extractApiErrorMessage } from "@/utils/extractErrorMessage";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
 });
 
 function RegisterPage() {
-  const { setToken } = useAuth();
+  const { setToken, token } = useAuth();
 
   const navigate = useNavigate();
 
-  const {
-    mutate: handleRegister,
-    isError,
-    isPending,
-    error,
-  } = useMutation({
+  const { mutate, isError, isPending, error } = useMutation({
     mutationFn: (payload: RegisterPayload) => register(payload),
     onSuccess: (data) => {
       setToken(data);
-      navigate({ to: "/verify-email" });
     },
     onError: (error: any) => {
       console.log(error);
     },
   });
+
+  const handleRegister = (payload: RegisterPayload) => {
+    mutate(payload);
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate({ to: "/verify-email" });
+    }
+  }, [token, navigate]);
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", gap: 3 }}>
@@ -46,7 +52,7 @@ function RegisterPage() {
 
             {isError && (
               <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
-                {(error as any)?.response?.data ?? "Failed to create an account"}
+                {extractApiErrorMessage(error, "Failed to create an account")}
               </Alert>
             )}
 

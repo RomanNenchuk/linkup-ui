@@ -8,6 +8,8 @@ import AuthPrompt from "@/components/auth/AuthPrompt";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/api/auth";
 import Header from "@/components/auth/Header";
+import { extractApiErrorMessage } from "@/utils/extractErrorMessage";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -15,7 +17,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { setToken } = useAuth();
+  const { token, setToken } = useAuth();
 
   const {
     mutate: handleLogin,
@@ -26,12 +28,17 @@ function LoginPage() {
     mutationFn: (payload: LoginPayload) => login(payload),
     onSuccess: (data) => {
       setToken(data);
-      navigate({ to: "/profile" });
     },
     onError: (error: any) => {
       console.log(error);
     },
   });
+
+  useEffect(() => {
+    if (token) {
+      navigate({ to: "/profile" });
+    }
+  }, [token, navigate]);
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", gap: 1 }}>
@@ -45,7 +52,7 @@ function LoginPage() {
 
             {isError && (
               <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} severity="error">
-                {(error as any)?.response?.data ?? "Failed to login"}
+                {extractApiErrorMessage(error, "Failed to login")}
               </Alert>
             )}
 
@@ -56,6 +63,7 @@ function LoginPage() {
             <LoginForm onSubmit={handleLogin} isPending={isPending} />
 
             <AuthPrompt text="Don't have an account?" linkText="Register" to="/register" />
+            <AuthPrompt linkText="Forgot Password?" to="/forgot-password" />
           </CardContent>
         </Card>
       </Box>

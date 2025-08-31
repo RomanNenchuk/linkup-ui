@@ -7,6 +7,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useMutation } from "@tanstack/react-query";
 import Header from "@/components/auth/Header";
+import { extractApiErrorMessage } from "@/utils/extractErrorMessage";
 
 export const Route = createFileRoute("/_protected/verify-email")({
   component: VerifyEmail,
@@ -21,7 +22,6 @@ function VerifyEmail() {
 
   const { mutate, isPending, isSuccess, isError, error } = useMutation({
     mutationFn: resendVerification,
-    onMutate: () => {},
     onSuccess: () => {
       startResendTimer();
     },
@@ -55,7 +55,7 @@ function VerifyEmail() {
                 sx={{ display: "flex", justifyContent: "center" }}
                 severity="error"
               >
-                {(error as any)?.response?.data ?? "Failed to resend email verification. Try later"}
+                {extractApiErrorMessage(error, "Failed to resend email verification. Try later")}
               </Alert>
             )}
 
