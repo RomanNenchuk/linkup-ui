@@ -22,8 +22,8 @@ function stringToInitials(name: string): string {
 
 export default function UserAvatar({ id, displayName, size = 56 }: UserAvatarProps) {
   const hue = stringToHue(id);
-  const color1 = `hsl(${hue}, 70%, 40%)`;
-  const color2 = `hsl(${(hue + 40) % 360}, 70%, 50%)`;
+  const color1 = `hsl(${hue}, 70%, 60%)`;
+  const color2 = `hsl(${(hue + 40) % 360}, 70%, 70%)`;
 
   return (
     <Avatar
@@ -33,7 +33,8 @@ export default function UserAvatar({ id, displayName, size = 56 }: UserAvatarPro
         height: size,
         fontSize: size / 2.5,
         fontWeight: 700,
-        color: "rgba(255,255,255,0.9)",
+        color: "rgba(0,0,0,0.8)",
+        border: "2px solid rgba(0,0,0,0.15)",
         position: "relative",
         "&::after": {
           content: '""',

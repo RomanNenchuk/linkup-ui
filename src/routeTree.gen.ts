@@ -16,6 +16,7 @@ import { Route as GuestRouteImport } from './routes/_guest'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProtectedVerifyEmailRouteImport } from './routes/_protected/verify-email'
 import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
+import { Route as ProtectedCreatePostRouteImport } from './routes/_protected/create-post'
 import { Route as GuestRegisterRouteImport } from './routes/_guest/register'
 import { Route as GuestLoginRouteImport } from './routes/_guest/login'
 import { Route as GuestForgotPasswordRouteImport } from './routes/_guest/forgot-password'
@@ -53,6 +54,11 @@ const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedCreatePostRoute = ProtectedCreatePostRouteImport.update({
+  id: '/create-post',
+  path: '/create-post',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const GuestRegisterRoute = GuestRegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof GuestForgotPasswordRoute
   '/login': typeof GuestLoginRoute
   '/register': typeof GuestRegisterRoute
+  '/create-post': typeof ProtectedCreatePostRoute
   '/profile': typeof ProtectedProfileRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
 }
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof GuestForgotPasswordRoute
   '/login': typeof GuestLoginRoute
   '/register': typeof GuestRegisterRoute
+  '/create-post': typeof ProtectedCreatePostRoute
   '/profile': typeof ProtectedProfileRoute
   '/verify-email': typeof ProtectedVerifyEmailRoute
 }
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/_guest/forgot-password': typeof GuestForgotPasswordRoute
   '/_guest/login': typeof GuestLoginRoute
   '/_guest/register': typeof GuestRegisterRoute
+  '/_protected/create-post': typeof ProtectedCreatePostRoute
   '/_protected/profile': typeof ProtectedProfileRoute
   '/_protected/verify-email': typeof ProtectedVerifyEmailRoute
 }
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/create-post'
     | '/profile'
     | '/verify-email'
   fileRoutesByTo: FileRoutesByTo
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/create-post'
     | '/profile'
     | '/verify-email'
   id:
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/_guest/forgot-password'
     | '/_guest/login'
     | '/_guest/register'
+    | '/_protected/create-post'
     | '/_protected/profile'
     | '/_protected/verify-email'
   fileRoutesById: FileRoutesById
@@ -196,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedProfileRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/create-post': {
+      id: '/_protected/create-post'
+      path: '/create-post'
+      fullPath: '/create-post'
+      preLoaderRoute: typeof ProtectedCreatePostRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_guest/register': {
       id: '/_guest/register'
       path: '/register'
@@ -235,11 +254,13 @@ const GuestRouteChildren: GuestRouteChildren = {
 const GuestRouteWithChildren = GuestRoute._addFileChildren(GuestRouteChildren)
 
 interface ProtectedRouteChildren {
+  ProtectedCreatePostRoute: typeof ProtectedCreatePostRoute
   ProtectedProfileRoute: typeof ProtectedProfileRoute
   ProtectedVerifyEmailRoute: typeof ProtectedVerifyEmailRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedCreatePostRoute: ProtectedCreatePostRoute,
   ProtectedProfileRoute: ProtectedProfileRoute,
   ProtectedVerifyEmailRoute: ProtectedVerifyEmailRoute,
 }
