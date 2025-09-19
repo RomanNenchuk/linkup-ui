@@ -73,16 +73,10 @@ export default function useCreatePost() {
       alert("Geolocation is not supported by your browser.");
       return;
     }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        setUserCurrentLocation({ lat: latitude, lng: longitude });
-      },
-      (err) => {
-        console.error("Geolocation error:", err);
-        alert("Unable to retrieve location.");
-      }
-    );
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      setUserCurrentLocation({ lat: latitude, lng: longitude });
+    });
   };
 
   useEffect(() => {

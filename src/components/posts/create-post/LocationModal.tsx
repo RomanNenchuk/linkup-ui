@@ -1,28 +1,10 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Box } from "@mui/material";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import { useState } from "react";
-import L from "leaflet";
-
-const markerIcon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+import LocationMarker from "./LocationMarker";
+import axios from "axios";
 
 const KYIV_COORDINATES: [number, number] = [50.4501, 30.5234];
-
-function LocationMarker({ onSelect }: { onSelect: (lat: number, lng: number) => void }) {
-  const [position, setPosition] = useState<[number, number] | null>(null);
-
-  useMapEvents({
-    click(e) {
-      setPosition([e.latlng.lat, e.latlng.lng]);
-      onSelect(e.latlng.lat, e.latlng.lng);
-    },
-  });
-
-  return position ? <Marker position={position} icon={markerIcon} /> : null;
-}
 
 export default function LocationModal({
   open,
@@ -46,9 +28,8 @@ export default function LocationModal({
 
     // Reverse geocoding з Nominatim
     try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
-      const data = await res.json();
-      setAddress(data.display_name || "");
+      const res = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+      setAddress(res.data.display_name || "");
     } catch (err) {
       console.error("Reverse geocoding failed", err);
     }
@@ -59,7 +40,7 @@ export default function LocationModal({
       <DialogTitle>Select Location</DialogTitle>
       <DialogContent>
         <Box sx={{ height: 300, mb: 2 }}>
-          <MapContainer center={mapCenter} zoom={13} style={{ height: "100%", width: "100%" }}>
+          <MapContainer center={mapCenter} zoom={12} style={{ height: "100%", width: "100%" }}>
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -68,10 +49,10 @@ export default function LocationModal({
           </MapContainer>
         </Box>
 
-        <TextField fullWidth label="Адреса" value={address} onChange={(e) => setAddress(e.target.value)} />
+        <TextField fullWidth label="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Скасувати</Button>
+        <Button onClick={onClose}>Cancel</Button>
         <Button
           variant="contained"
           onClick={() => {
@@ -81,7 +62,7 @@ export default function LocationModal({
             onClose();
           }}
         >
-          Зберегти
+          Save
         </Button>
       </DialogActions>
     </Dialog>
