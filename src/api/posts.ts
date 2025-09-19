@@ -1,4 +1,4 @@
-import type { PagedResult } from "@/hooks/usePosts";
+import type { PagedResult } from "@/hooks/usePostList";
 import { apiClient } from "./clients";
 
 export async function createPost(data: FormData): Promise<string> {

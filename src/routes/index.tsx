@@ -4,7 +4,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useInView } from "react-intersection-observer";
 
 import Header from "@/components/auth/Header";
-import { usePosts } from "@/hooks/usePosts";
+import { usePostList } from "@/hooks/usePostList";
 import PostsLoading from "@/components/posts/post-list/PostsLoading";
 import PostsError from "@/components/posts/post-list/PostsError";
 import PostNotFound from "@/components/posts/post-list/PostNotFound";
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 export default function PostsListPage() {
   const navigate = useNavigate();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePosts();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList();
 
   const posts = data?.pages.flatMap((page) => page.items) ?? [];
 

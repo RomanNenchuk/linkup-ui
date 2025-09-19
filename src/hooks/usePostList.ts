@@ -6,7 +6,7 @@ export type PagedResult<T> = {
   nextCursor: string | null;
 };
 
-export function usePosts(ascending = false, pageSize = 10) {
+export function usePostList(ascending = false, pageSize = 10) {
   return useInfiniteQuery<
     PagedResult<Post>,
     Error,
