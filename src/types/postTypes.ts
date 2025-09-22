@@ -6,7 +6,6 @@ type PostPhoto = {
 
 type Post = {
   id: string;
-  authorId: string;
   title: string;
   content: string | null;
   latitude: string | null;
