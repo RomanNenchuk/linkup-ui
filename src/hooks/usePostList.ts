@@ -1,5 +1,6 @@
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { fetchPosts } from "../api/posts";
+import { useState } from "react";
 
 export type PagedResult<T> = {
   items: T[];
@@ -7,7 +8,9 @@ export type PagedResult<T> = {
 };
 
 export function usePostList(ascending = false, pageSize = 10) {
-  return useInfiniteQuery<
+  const [tab, setTab] = useState<"top" | "recent" | "following">("recent");
+
+  const infiniteQuery = useInfiniteQuery<
     PagedResult<Post>,
     Error,
     InfiniteData<PagedResult<Post>>,
@@ -24,4 +27,6 @@ export function usePostList(ascending = false, pageSize = 10) {
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
     initialPageParam: null,
   });
+
+  return { ...infiniteQuery, tab, setTab };
 }
