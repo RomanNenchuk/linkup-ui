@@ -3,10 +3,9 @@ import { Favorite, Comment, FavoriteBorder, Share } from "@mui/icons-material";
 import { Card, CardContent, Box, Typography, IconButton } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import PostPhotos from "./PostPhotos";
+import { memo } from "react";
 
-export default function PostCard({ post }: { post: Post }) {
-  console.log(post);
-
+const PostCard = memo(function PostCard({ post }: { post: Post }) {
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent sx={{ p: 2 }}>
@@ -73,4 +72,6 @@ export default function PostCard({ post }: { post: Post }) {
       </CardContent>
     </Card>
   );
-}
+});
+
+export default PostCard;

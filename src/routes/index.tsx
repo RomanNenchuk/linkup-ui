@@ -9,6 +9,7 @@ import PostsLoading from "@/components/posts/post-list/PostsLoading";
 import PostsError from "@/components/posts/post-list/PostsError";
 import PostNotFound from "@/components/posts/post-list/PostNotFound";
 import PostCard from "@/components/posts/post-list/PostCard";
+import { useMemo } from "react";
 
 export const Route = createFileRoute("/")({
   component: PostsListPage,
@@ -19,13 +20,16 @@ export default function PostsListPage() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList();
 
-  const posts = data?.pages.flatMap((page) => page.items) ?? [];
+  const posts = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);
 
-  // Intersection Observer
   const { ref: loadMoreRef } = useInView({
     threshold: 0,
+    rootMargin: "100px",
+    triggerOnce: false,
     onChange: (inView) => {
-      if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+      if (inView && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
     },
   });
 
@@ -41,7 +45,7 @@ export default function PostsListPage() {
           {posts.length === 0 ? <PostNotFound /> : posts.map((post) => <PostCard key={post.id} post={post} />)}
 
           {/* Sentinel for IntersectionObserver */}
-          <div ref={loadMoreRef} style={{ height: 1 }} />
+          {hasNextPage && <div ref={loadMoreRef} style={{ height: 1 }} />}
 
           {isFetchingNextPage && (
             <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 2 }}>
