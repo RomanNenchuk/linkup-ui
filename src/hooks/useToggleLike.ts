@@ -4,11 +4,11 @@ import type { PagedResult } from "./usePostList";
 import { useCallback } from "react";
 
 type UseToggleLikeProps = {
-  ascending: boolean;
+  filter: PostFilterType;
   pageSize: number;
 };
 
-export function useToggleLike({ ascending, pageSize }: UseToggleLikeProps) {
+export function useToggleLike({ filter, pageSize }: UseToggleLikeProps) {
   const queryClient = useQueryClient();
 
   const toggleLikeMutation = useMutation({
@@ -20,13 +20,9 @@ export function useToggleLike({ ascending, pageSize }: UseToggleLikeProps) {
 
       const prevData = queryClient.getQueryData<InfiniteData<PagedResult<Post>>>(["posts"]);
 
-      queryClient.setQueryData<InfiniteData<PagedResult<Post>>>(["posts", { ascending, pageSize }], (oldData) => {
-        console.log("update");
-        console.log(oldData);
-
+      queryClient.setQueryData<InfiniteData<PagedResult<Post>>>(["posts", { filter, pageSize }], (oldData) => {
         if (!oldData) return oldData;
 
-        console.log("oldData:" + oldData);
         const newData = {
           ...oldData,
           pages: oldData.pages.map((page: any) => ({
@@ -42,8 +38,6 @@ export function useToggleLike({ ascending, pageSize }: UseToggleLikeProps) {
             ),
           })),
         };
-
-        console.log("newData:" + newData);
 
         return newData;
       });

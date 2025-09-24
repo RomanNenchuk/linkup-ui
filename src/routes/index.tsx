@@ -18,8 +18,8 @@ export const Route = createFileRoute("/")({
 
 export default function PostsListPage() {
   const navigate = useNavigate();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, tab, setTab } = usePostList();
-  const { handleLike } = useToggleLike({ ascending: false, pageSize: 10 });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, filter, setFilter } = usePostList();
+  const { handleLike } = useToggleLike({ filter, pageSize: 10 });
 
   const posts = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);
 
@@ -39,9 +39,9 @@ export default function PostsListPage() {
     <Box sx={{ minHeight: "100vh", backgroundColor: "background.default" }}>
       <Header />
 
-      <Tabs sx={{ mt: 2 }} value={tab} onChange={(_, newValue) => setTab(newValue)} centered>
-        <Tab label="Top" value="top" />
+      <Tabs sx={{ mt: 2 }} value={filter} onChange={(_, newValue) => setFilter(newValue)} centered>
         <Tab label="Recent" value="recent" />
+        <Tab label="Top" value="top" />
         <Tab label="Following" value="following" />
       </Tabs>
 

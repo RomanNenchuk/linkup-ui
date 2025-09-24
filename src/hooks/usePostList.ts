@@ -7,20 +7,20 @@ export type PagedResult<T> = {
   nextCursor: string | null;
 };
 
-export function usePostList(ascending = false, pageSize = 10) {
-  const [tab, setTab] = useState<"top" | "recent" | "following">("recent");
+export function usePostList(pageSize = 10) {
+  const [filter, setFilter] = useState<PostFilterType>("recent");
 
   const infiniteQuery = useInfiniteQuery<
     PagedResult<Post>,
     Error,
     InfiniteData<PagedResult<Post>>,
-    [string, { ascending: boolean; pageSize: number }],
+    [string, { filter: PostFilterType; pageSize: number }],
     string | null
   >({
-    queryKey: ["posts", { ascending, pageSize }],
+    queryKey: ["posts", { filter, pageSize }],
     queryFn: ({ pageParam }) =>
       fetchPosts({
-        ascending,
+        filter,
         cursor: pageParam,
         pageSize,
       }),
@@ -28,5 +28,5 @@ export function usePostList(ascending = false, pageSize = 10) {
     initialPageParam: null,
   });
 
-  return { ...infiniteQuery, tab, setTab };
+  return { ...infiniteQuery, filter, setFilter };
 }

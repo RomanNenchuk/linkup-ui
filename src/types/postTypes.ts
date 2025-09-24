@@ -30,3 +30,11 @@ type LocationCoordinates = {
 type PostLocation = LocationCoordinates & {
   address?: string;
 };
+
+type PostFilterType = "top" | "recent" | "following";
+
+type FetchPostsProps = {
+  filter: PostFilterType;
+  cursor: string | null;
+  pageSize: number | null;
+};

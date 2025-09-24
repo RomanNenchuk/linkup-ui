@@ -79,7 +79,7 @@ function UserPage() {
                   textAlign: { xs: "center", sm: "left" },
                 }}
               >
-                <UserAvatar id={user.id} displayName={user.displayName} size={80} />
+                <UserAvatar id={user.id} displayName={user.displayName} size={64} />
                 <Box>
                   <Box display="flex" alignItems="center" gap={1} justifyContent={{ xs: "center", sm: "flex-start" }}>
                     <Typography variant="h5" fontWeight="bold">

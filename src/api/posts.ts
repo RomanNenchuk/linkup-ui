@@ -7,16 +7,12 @@ export async function createPost(data: FormData): Promise<string> {
   return response.data;
 }
 
-export const fetchPosts = async (options?: {
-  ascending: boolean | null;
-  cursor: string | null;
-  pageSize: number | null;
-}): Promise<PagedResult<Post>> => {
+export const fetchPosts = async ({ filter, cursor, pageSize }: FetchPostsProps): Promise<PagedResult<Post>> => {
   const response = await apiClient.get("/posts", {
     params: {
-      ascending: options?.ascending ?? false,
-      cursor: options?.cursor,
-      pageSize: options?.pageSize ?? 10,
+      filter: filter,
+      cursor: cursor,
+      pageSize: pageSize ?? 10,
     },
   });
   return response.data;
