@@ -1,9 +1,8 @@
 import { Box, Typography, Fab, Tabs, Tab } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useInView } from "react-intersection-observer";
 import { useMemo } from "react";
-
 import Header from "@/components/auth/Header";
 import { usePostList } from "@/hooks/usePostList";
 import PostsLoading from "@/components/posts/post-list/PostsLoading";
@@ -14,11 +13,28 @@ import { useToggleLike } from "@/hooks/useToggleLike";
 
 export const Route = createFileRoute("/")({
   component: PostsListPage,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      filter: (search.filter as PostFilterType) ?? "recent",
+    };
+  },
 });
 
 export default function PostsListPage() {
-  const navigate = useNavigate();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, filter, setFilter } = usePostList();
+  const navigate = Route.useNavigate();
+  const { filter } = Route.useSearch();
+
+  const setFilter = (newFilter: PostFilterType) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        filter: newFilter,
+      }),
+      replace: true,
+    });
+  };
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList(filter);
   const { handleLike } = useToggleLike({ filter, pageSize: 10 });
 
   const posts = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);

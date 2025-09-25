@@ -1,15 +1,12 @@
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { fetchPosts } from "../api/posts";
-import { useState } from "react";
 
 export type PagedResult<T> = {
   items: T[];
   nextCursor: string | null;
 };
 
-export function usePostList(pageSize = 10) {
-  const [filter, setFilter] = useState<PostFilterType>("recent");
-
+export function usePostList(filter: PostFilterType, pageSize = 10) {
   const infiniteQuery = useInfiniteQuery<
     PagedResult<Post>,
     Error,
@@ -28,5 +25,5 @@ export function usePostList(pageSize = 10) {
     initialPageParam: null,
   });
 
-  return { ...infiniteQuery, filter, setFilter };
+  return { ...infiniteQuery };
 }
