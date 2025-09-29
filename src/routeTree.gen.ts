@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as GuestRouteImport } from './routes/_guest'
@@ -26,6 +27,11 @@ import { Route as ProtectedEditPostPostIdRouteImport } from './routes/_protected
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfirmEmailRoute = ConfirmEmailRouteImport.update({
@@ -90,6 +96,7 @@ const ProtectedEditPostPostIdRoute = ProtectedEditPostPostIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/confirm-email': typeof ConfirmEmailRoute
+  '/locations': typeof LocationsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/forgot-password': typeof GuestOnlyForgotPasswordRoute
   '/login': typeof GuestOnlyLoginRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/confirm-email': typeof ConfirmEmailRoute
+  '/locations': typeof LocationsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/forgot-password': typeof GuestOnlyForgotPasswordRoute
   '/login': typeof GuestOnlyLoginRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/_guest': typeof GuestRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/confirm-email': typeof ConfirmEmailRoute
+  '/locations': typeof LocationsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_guest-only/forgot-password': typeof GuestOnlyForgotPasswordRoute
   '/_guest-only/login': typeof GuestOnlyLoginRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/confirm-email'
+    | '/locations'
     | '/reset-password'
     | '/forgot-password'
     | '/login'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/confirm-email'
+    | '/locations'
     | '/reset-password'
     | '/forgot-password'
     | '/login'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/_guest'
     | '/_protected'
     | '/confirm-email'
+    | '/locations'
     | '/reset-password'
     | '/_guest-only/forgot-password'
     | '/_guest-only/login'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   GuestRoute: typeof GuestRoute
   ProtectedRoute: typeof ProtectedRouteWithChildren
   ConfirmEmailRoute: typeof ConfirmEmailRoute
+  LocationsRoute: typeof LocationsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   GuestOnlyForgotPasswordRoute: typeof GuestOnlyForgotPasswordRoute
   GuestOnlyLoginRoute: typeof GuestOnlyLoginRoute
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confirm-email': {
@@ -304,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuestRoute: GuestRoute,
   ProtectedRoute: ProtectedRouteWithChildren,
   ConfirmEmailRoute: ConfirmEmailRoute,
+  LocationsRoute: LocationsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   GuestOnlyForgotPasswordRoute: GuestOnlyForgotPasswordRoute,
   GuestOnlyLoginRoute: GuestOnlyLoginRoute,

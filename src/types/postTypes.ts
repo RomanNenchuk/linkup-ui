@@ -36,5 +36,8 @@ type PostFilterType = "top" | "recent" | "following";
 type FetchPostsProps = {
   filter: PostFilterType;
   cursor: string | null;
+  latitude?: number;
+  longitude?: number;
+  radius?: number;
   pageSize: number | null;
 };

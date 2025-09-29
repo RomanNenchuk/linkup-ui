@@ -12,11 +12,19 @@ export async function updatePost({ postId, data }: { postId: string; data: FormD
   return response.data;
 }
 
-export const fetchPosts = async ({ filter, cursor, pageSize }: FetchPostsProps): Promise<PagedResult<Post>> => {
+export const fetchPosts = async ({
+  filter,
+  cursor,
+  latitude,
+  longitude,
+  pageSize,
+}: FetchPostsProps): Promise<PagedResult<Post>> => {
   const response = await apiClient.get("/posts", {
     params: {
-      filter: filter,
-      cursor: cursor,
+      filter,
+      cursor,
+      latitude,
+      longitude,
       pageSize: pageSize ?? 10,
     },
   });

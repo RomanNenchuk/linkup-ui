@@ -6,20 +6,47 @@ export type PagedResult<T> = {
   nextCursor: string | null;
 };
 
-export function usePostList(filter: PostFilterType, pageSize = 10) {
+export function usePostList(
+  filter: PostFilterType,
+  latitude?: number,
+  longitude?: number,
+  radius?: number,
+  pageSize = 10
+) {
   const infiniteQuery = useInfiniteQuery<
     PagedResult<Post>,
     Error,
     InfiniteData<PagedResult<Post>>,
-    [string, { filter: PostFilterType; pageSize: number }],
+    [
+      string,
+      {
+        filter: PostFilterType;
+        pageSize: number;
+        latitude?: number;
+        longitude?: number;
+        radius?: number;
+      },
+    ],
     string | null
   >({
-    queryKey: ["posts", { filter, pageSize }],
+    queryKey: [
+      "posts",
+      {
+        filter,
+        pageSize,
+        ...(latitude !== undefined && { latitude }),
+        ...(longitude !== undefined && { longitude }),
+        ...(radius !== undefined && { radius }),
+      },
+    ],
     queryFn: ({ pageParam }) =>
       fetchPosts({
         filter,
         cursor: pageParam,
         pageSize,
+        latitude,
+        longitude,
+        radius,
       }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
     initialPageParam: null,
