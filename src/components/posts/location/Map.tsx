@@ -19,7 +19,7 @@ export default function Map({
   boxStyles,
 }: MapProps) {
   return (
-    <Box sx={{ height: 300, mb: 2, ...boxStyles }}>
+    <Box sx={{ height: 400, mb: 2, ...boxStyles }}>
       <MapContainer center={mapCenter} zoom={zoom} style={mapStyles}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'

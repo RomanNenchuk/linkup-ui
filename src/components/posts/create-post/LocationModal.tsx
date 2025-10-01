@@ -14,9 +14,11 @@ type LocationModalProps = {
 export default function LocationModal({ open, onClose, onSave, intialLocation }: LocationModalProps) {
   const [coordinates, setCoordinates] = useState<LocationCoordinates | null>(null);
   const [address, setAddress] = useState(intialLocation?.address ?? "");
-  const mapCenter: [number, number] = intialLocation
-    ? [intialLocation.latitude, intialLocation.longitude]
-    : KYIV_COORDINATES;
+  const mapCenter: [number, number] = coordinates
+    ? [coordinates.latitude, coordinates.longitude]
+    : intialLocation
+      ? [intialLocation.latitude, intialLocation.longitude]
+      : KYIV_COORDINATES;
 
   const handleSelect = async (coordinates: LocationCoordinates) => {
     setCoordinates(coordinates);
