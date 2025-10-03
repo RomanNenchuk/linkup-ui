@@ -36,6 +36,7 @@ export default function Header({ currentPage }: HeaderProps) {
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Locations", href: "/locations" },
+    { label: "Analytics", href: "/analytics" },
   ];
 
   const drawer = (

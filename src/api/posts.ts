@@ -61,3 +61,16 @@ export const deletePostById = async (postId: string): Promise<void> => {
   const response = await apiClient.delete(`/posts/${postId}`);
   return response.data;
 };
+
+export const getHeatmapPoints = async ({ minLat, maxLat, minLon, maxLon, zoom }: HeatmapParams) => {
+  const response = await apiClient.get(`/posts/heatmap-points`, {
+    params: {
+      minLat,
+      maxLat,
+      minLon,
+      maxLon,
+      zoom,
+    },
+  });
+  return response.data;
+};

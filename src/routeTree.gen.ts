@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as GuestRouteImport } from './routes/_guest'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const LocationsRoute = LocationsRouteImport.update({
 const ConfirmEmailRoute = ConfirmEmailRouteImport.update({
   id: '/confirm-email',
   path: '/confirm-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProtectedRoute = ProtectedRouteImport.update({
@@ -95,6 +101,7 @@ const ProtectedEditPostPostIdRoute = ProtectedEditPostPostIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/confirm-email': typeof ConfirmEmailRoute
   '/locations': typeof LocationsRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/confirm-email': typeof ConfirmEmailRoute
   '/locations': typeof LocationsRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_guest': typeof GuestRoute
   '/_protected': typeof ProtectedRouteWithChildren
+  '/analytics': typeof AnalyticsRoute
   '/confirm-email': typeof ConfirmEmailRoute
   '/locations': typeof LocationsRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/confirm-email'
     | '/locations'
     | '/reset-password'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/confirm-email'
     | '/locations'
     | '/reset-password'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_guest'
     | '/_protected'
+    | '/analytics'
     | '/confirm-email'
     | '/locations'
     | '/reset-password'
@@ -189,6 +201,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GuestRoute: typeof GuestRoute
   ProtectedRoute: typeof ProtectedRouteWithChildren
+  AnalyticsRoute: typeof AnalyticsRoute
   ConfirmEmailRoute: typeof ConfirmEmailRoute
   LocationsRoute: typeof LocationsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -219,6 +232,13 @@ declare module '@tanstack/react-router' {
       path: '/confirm-email'
       fullPath: '/confirm-email'
       preLoaderRoute: typeof ConfirmEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_protected': {
@@ -323,6 +343,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GuestRoute: GuestRoute,
   ProtectedRoute: ProtectedRouteWithChildren,
+  AnalyticsRoute: AnalyticsRoute,
   ConfirmEmailRoute: ConfirmEmailRoute,
   LocationsRoute: LocationsRoute,
   ResetPasswordRoute: ResetPasswordRoute,

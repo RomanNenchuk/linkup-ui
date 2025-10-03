@@ -41,3 +41,14 @@ type FetchPostsProps = {
   radius?: number;
   pageSize: number | null;
 };
+
+type BoundsType = {
+  minLat: number;
+  maxLat: number;
+  minLon: number;
+  maxLon: number;
+};
+
+type HeatmapParams = BoundsType & {
+  zoom: number;
+};
