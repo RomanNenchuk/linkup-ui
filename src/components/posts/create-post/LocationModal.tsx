@@ -1,4 +1,13 @@
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { useState } from "react";
 import { reverseGeocode } from "@/api/posts";
 import Map from "../location/Map";
@@ -20,6 +29,9 @@ export default function LocationModal({ open, onClose, onSave, intialLocation }:
       ? [intialLocation.latitude, intialLocation.longitude]
       : undefined;
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const handleSelect = async (coordinates: LocationCoordinates) => {
     setCoordinates(coordinates);
     const address = await reverseGeocode(coordinates);
@@ -32,7 +44,7 @@ export default function LocationModal({ open, onClose, onSave, intialLocation }:
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth fullScreen={isMobile}>
       <DialogTitle>Select Location</DialogTitle>
       <DialogContent>
         <Map handleSelect={handleSelect} mapCenter={mapCenter} zoom={SMALL_ZOOM} />
