@@ -52,7 +52,7 @@ function Analytics() {
             flexGrow: 1,
           }}
         >
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" sx={{ mb: 4 }} gutterBottom>
             Clusters of Posts
           </Typography>
 

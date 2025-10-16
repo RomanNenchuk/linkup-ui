@@ -1,4 +1,5 @@
 import { Marker, useMapEvents } from "react-leaflet";
+import { defaultMarkerIcon } from "@/utils/defaultMarkerIcon";
 
 type LocationMarkerProps = {
   onSelect: (coordinates: LocationCoordinates) => Promise<void>;
@@ -13,5 +14,5 @@ export default function LocationMarker({ onSelect, position }: LocationMarkerPro
     },
   });
 
-  return position ? <Marker position={position} /> : null;
+  return position ? <Marker position={position} icon={defaultMarkerIcon} /> : null;
 }

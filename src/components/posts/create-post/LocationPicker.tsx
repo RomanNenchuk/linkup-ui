@@ -1,12 +1,7 @@
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { useState } from "react";
-import L from "leaflet";
-
-const markerIcon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+import { defaultMarkerIcon } from "@/utils/defaultMarkerIcon";
+import { DEFAULT_ZOOM, LOCATION_DEFAULT_COORDINATES } from "@/constants/posts";
 
 function LocationMarker({ onSelect }: { onSelect: (lat: number, lng: number) => void }) {
   const [position, setPosition] = useState<[number, number] | null>(null);
@@ -18,14 +13,14 @@ function LocationMarker({ onSelect }: { onSelect: (lat: number, lng: number) => 
     },
   });
 
-  return position ? <Marker position={position} icon={markerIcon} /> : null;
+  return position ? <Marker position={position} icon={defaultMarkerIcon} /> : null;
 }
 
 export default function LocationPicker({ onLocationSelect }: { onLocationSelect: (lat: number, lng: number) => void }) {
   return (
     <MapContainer
-      center={[50.4501, 30.5234]} // Київ як дефолт
-      zoom={13}
+      center={LOCATION_DEFAULT_COORDINATES}
+      zoom={DEFAULT_ZOOM}
       style={{ height: "300px", width: "100%", borderRadius: "8px", marginBottom: "16px" }}
     >
       <TileLayer
