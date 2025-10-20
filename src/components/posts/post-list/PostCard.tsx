@@ -1,19 +1,23 @@
 import UserAvatar from "@/components/auth/UserAvatar";
 import { Favorite, Comment, FavoriteBorder } from "@mui/icons-material";
-import { Card, CardContent, Box, Typography, IconButton } from "@mui/material";
+import { Card, CardContent, Box, Typography, IconButton, type SxProps, type Theme } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import PostPhotos from "./PostPhotos";
 import { memo } from "react";
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/contexts/AuthProvider";
 
-type PostCardProps = { post: Post; handleLike: (postId: string, isLikedByCurrentUser: boolean) => void };
+type PostCardProps = {
+  post: Post;
+  handleLike: (postId: string, isLikedByCurrentUser: boolean) => void;
+  sx?: SxProps<Theme>;
+};
 
-const PostCard = memo(function PostCard({ post, handleLike }: PostCardProps) {
+const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps) {
   const { user } = useAuth();
 
   return (
-    <Card sx={{ mb: 2 }}>
+    <Card sx={{ mb: 2, ...sx }}>
       <CardContent sx={{ p: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1 }}>
           <Link

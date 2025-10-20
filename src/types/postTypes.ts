@@ -4,6 +4,11 @@ type PostPhoto = {
   publicId: string;
 };
 
+type AuthorType = {
+  id: string;
+  displayName: string;
+};
+
 type Post = {
   id: string;
   title: string;
@@ -13,10 +18,7 @@ type Post = {
   address: string | null;
   photos: PostPhoto[];
   createdAt: Date;
-  author: {
-    id: string;
-    displayName: string;
-  };
+  author: AuthorType;
   likesCount?: number;
   commentsCount?: number;
   isLikedByCurrentUser?: boolean;
@@ -59,4 +61,20 @@ type ClusterType = {
   latitude: number;
   longitude: number;
   count: number;
+};
+
+type PostCommentType = {
+  id: string;
+  content: string;
+  postId: string;
+  author: AuthorType;
+  repliedTo: string | null;
+  createdAt: Date;
+  updatedAt: Date | null;
+};
+
+type CreatePostCommentType = {
+  postId: string;
+  content: string;
+  repliedTo?: string;
 };
