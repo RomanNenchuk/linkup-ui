@@ -44,7 +44,7 @@ export function usePostListToggleLike(
                   ? {
                       ...p,
                       isLikedByCurrentUser: isLiked,
-                      likesCount: (p.likesCount ?? 0) + (isLiked ? 1 : -1),
+                      reactionCount: (p.reactionCount ?? 0) + (isLiked ? 1 : -1),
                     }
                   : p
               ),

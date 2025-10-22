@@ -19,8 +19,8 @@ type Post = {
   photos: PostPhoto[];
   createdAt: Date;
   author: AuthorType;
-  likesCount?: number;
-  commentsCount?: number;
+  reactionCount?: number;
+  commentCount?: number;
   isLikedByCurrentUser?: boolean;
 };
 
@@ -68,9 +68,9 @@ type PostCommentType = {
   content: string;
   postId: string;
   author: AuthorType;
-  repliedTo: string | null;
+  repliedTo?: string;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt?: Date;
 };
 
 type CreatePostCommentType = {

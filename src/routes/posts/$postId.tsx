@@ -7,7 +7,7 @@ import PostCard from "@/components/posts/post-list/PostCard";
 import Header from "@/components/auth/Header";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { usePostToggleLike } from "@/hooks/usePostToggleLike";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPostById } from "@/api/posts";
 import { createPostComment, getPostComments } from "@/api/postComments";
 
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/posts/$postId")({ component: RouteCompone
 function RouteComponent() {
   const { postId } = useParams({ from: "/posts/$postId" });
   const { handleLike } = usePostToggleLike();
+  const queryClient = useQueryClient();
   const { user } = useAuth();
   const [newComment, setNewComment] = useState("");
 
@@ -33,11 +34,50 @@ function RouteComponent() {
 
   const { mutate: handleCreatePostComment, isPending } = useMutation({
     mutationFn: createPostComment,
-    onSuccess: () => {
-      // тут можна зробити invalidateQueries для оновлення коментарів
+    onMutate: async ({ postId, content, repliedTo }) => {
+      // stops any current refetches ["posts", postId, "comments"] to avoid conflicts
+      await queryClient.cancelQueries({ queryKey: ["posts", postId, "comments"] });
+
+      const prevData = queryClient.getQueryData<PostCommentType[]>(["posts", postId, "comments"]);
+
+      // створюємо тимчасовий коментар
+      const tempId = `temp-${Date.now()}`;
+      const optimisticComment: PostCommentType = {
+        id: tempId,
+        postId,
+        content,
+        repliedTo: repliedTo,
+        createdAt: new Date(),
+        author: {
+          id: user!.id,
+          displayName: user!.displayName,
+        },
+      };
+
+      queryClient.setQueryData<PostCommentType[]>(["posts", postId, "comments"], (old = []) => [
+        optimisticComment,
+        ...old,
+      ]);
+
+      return { prevData, tempId };
     },
-    onError: (error: any) => {
-      console.error("Failed to create post:", error);
+
+    onError: (_err, vars, context) => {
+      if (context?.prevData) {
+        queryClient.setQueryData(["posts", vars.postId, "comments"], context.prevData);
+      }
+    },
+
+    onSuccess: (id, vars, context) => {
+      // id — рядок, тому створюємо новий об'єкт на основі тимчасового коменту
+      queryClient.setQueryData<PostCommentType[]>(["posts", vars.postId, "comments"], (old = []) =>
+        old.map((comment) => (comment.id === context?.tempId ? { ...comment, id } : comment))
+      );
+    },
+
+    onSettled: (_data, _error, _vars) => {
+      // optional
+      // queryClient.invalidateQueries({ queryKey: ["posts", vars.postId, "comments"] });
     },
   });
 

@@ -20,7 +20,7 @@ export function usePostToggleLike() {
         const newData = {
           ...oldData,
           isLikedByCurrentUser: isLiked,
-          likesCount: (oldData.likesCount ?? 0) + (isLiked ? 1 : -1),
+          reactionCount: (oldData.reactionCount ?? 0) + (isLiked ? 1 : -1),
         };
 
         return newData;

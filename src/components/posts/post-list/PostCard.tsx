@@ -89,7 +89,7 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
             {post.isLikedByCurrentUser ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
           </IconButton>
           <Typography variant="caption" color="text.secondary">
-            {post.likesCount || 0}
+            {post.reactionCount || 0}
           </Typography>
 
           <Link to="/posts/$postId" params={{ postId: post.id }}>
@@ -97,7 +97,7 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
               <Comment fontSize="small" />
             </IconButton>
             <Typography variant="caption" color="text.secondary">
-              {post.commentsCount || 0}
+              {post.commentCount || 0}
             </Typography>
           </Link>
         </Box>
