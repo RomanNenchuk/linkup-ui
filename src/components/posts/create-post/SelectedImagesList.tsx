@@ -1,5 +1,6 @@
+import { MAX_IMAGES_COUNT } from "@/constants/posts";
 import { Close } from "@mui/icons-material";
-import { Box, Typography, Stack, IconButton } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 
 type SelectedImagesProps = {
@@ -32,9 +33,9 @@ export default function SelectedImagesList({
       {totalImages > 0 && (
         <Box sx={{ mb: 3 }}>
           <Typography variant="subtitle2" sx={{ mb: 2 }}>
-            Selected Images ({totalImages}/5)
+            Selected Images ({totalImages}/{MAX_IMAGES_COUNT})
           </Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
             {/* Existing images */}
             {localExistingImages &&
               localExistingImages.map((postPhoto) => (
@@ -121,7 +122,7 @@ export default function SelectedImagesList({
                 </IconButton>
               </Box>
             ))}
-          </Stack>
+          </Box>
         </Box>
       )}
     </>

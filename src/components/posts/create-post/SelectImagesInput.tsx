@@ -1,3 +1,4 @@
+import { MAX_IMAGES_COUNT } from "@/constants/posts";
 import { PhotoCamera } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import type React from "react";
@@ -11,7 +12,7 @@ type SelectImagesInputProps = {
 export default function SelectImagesInput({
   selectedImagesCount,
   handleImageSelect,
-  maxImages = 5,
+  maxImages = MAX_IMAGES_COUNT,
 }: SelectImagesInputProps) {
   const isMaxReached = selectedImagesCount >= maxImages;
 

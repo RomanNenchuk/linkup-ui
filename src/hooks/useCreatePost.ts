@@ -1,4 +1,5 @@
 import { createPost } from "@/api/posts";
+import { MAX_IMAGES_COUNT } from "@/constants/posts";
 import { postSchema, type PostFormValues } from "@/schemas/postSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -44,7 +45,7 @@ export default function useCreatePost() {
 
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    setSelectedImages((prev) => [...prev, ...files].slice(0, 5)); // Limit to 5 images
+    setSelectedImages((prev) => [...prev, ...files].slice(0, MAX_IMAGES_COUNT));
   };
 
   const handleRemoveImage = (index: number) => {

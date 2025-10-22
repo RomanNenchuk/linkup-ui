@@ -68,7 +68,7 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
           </Box>
         </Box>
 
-        <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 600 }}>
+        <Typography variant="body2" sx={{ mb: 1, color: "black" }}>
           {post.title}
         </Typography>
 

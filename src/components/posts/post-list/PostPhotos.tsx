@@ -1,3 +1,4 @@
+import { PREVIEW_IMAGES_COUNT } from "@/constants/posts";
 import { Box, ImageList, ImageListItem, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
@@ -31,16 +32,22 @@ export default function PostPhotos({ photos }: { photos: PostPhoto[] }) {
     );
   }
 
-  const previewPhotos = photos.slice(0, 5);
-
   return (
     <PhotoProvider>
       <ImageList sx={{ width: "100%", mb: 2 }} cols={isMobile ? 2 : 3} rowHeight={isMobile ? 120 : 180} gap={4}>
-        {previewPhotos.map((photo, index) => {
-          const isOverlay = index === 4 && photos.length > 5;
+        {photos.map((photo, index) => {
+          const isHidden = index >= PREVIEW_IMAGES_COUNT;
+          const isOverlay = index === PREVIEW_IMAGES_COUNT - 1 && photos.length > PREVIEW_IMAGES_COUNT;
 
           return (
-            <ImageListItem key={photo.id} cols={1}>
+            <ImageListItem
+              key={photo.id}
+              cols={1}
+              sx={{
+                display: isHidden ? "none" : "block",
+                position: "relative",
+              }}
+            >
               <PhotoView src={photo.url}>
                 <Box
                   component="img"
@@ -69,10 +76,11 @@ export default function PostPhotos({ photos }: { photos: PostPhoto[] }) {
                     alignItems: "center",
                     justifyContent: "center",
                     borderRadius: 1,
+                    pointerEvents: "none",
                   }}
                 >
                   <Typography variant="h6" color="white" fontWeight={600}>
-                    +{photos.length - 5}
+                    +{photos.length - PREVIEW_IMAGES_COUNT}
                   </Typography>
                 </Box>
               )}
