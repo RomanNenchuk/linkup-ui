@@ -70,8 +70,14 @@ export const reverseGeocode = async ({
   }
 };
 
-export async function toggleLike(postId: string, isLiked: boolean): Promise<void> {
+export async function togglePostLike(postId: string, isLiked: boolean): Promise<void> {
   await apiClient.post(`/posts/${postId}/toggle-reaction`, {
+    isLiked,
+  });
+}
+
+export async function togglePostCommentLike(postId: string, commentId: string, isLiked: boolean): Promise<void> {
+  await apiClient.post(`/posts/${postId}/comments/${commentId}/toggle-reaction`, {
     isLiked,
   });
 }

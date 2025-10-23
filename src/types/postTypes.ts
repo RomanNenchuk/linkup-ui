@@ -71,6 +71,8 @@ type PostCommentType = {
   repliedTo?: string;
   createdAt: Date;
   updatedAt?: Date;
+  reactionCount?: number;
+  isLikedByCurrentUser?: boolean;
 };
 
 type CreatePostCommentType = {

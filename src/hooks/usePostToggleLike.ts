@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toggleLike } from "../api/posts";
+import { togglePostLike } from "../api/posts";
 import { useCallback } from "react";
 
 export function usePostToggleLike() {
   const queryClient = useQueryClient();
 
   const toggleLikeMutation = useMutation({
-    mutationFn: ({ postId, isLiked }: { postId: string; isLiked: boolean }) => toggleLike(postId, isLiked),
+    mutationFn: ({ postId, isLiked }: { postId: string; isLiked: boolean }) => togglePostLike(postId, isLiked),
 
     onMutate: async ({ postId, isLiked }) => {
       // stops any current refetches ["posts"] to avoid conflicts
@@ -48,7 +48,7 @@ export function usePostToggleLike() {
         isLiked: !isLikedByCurrentUser,
       });
     },
-    [toggleLike]
+    [togglePostLike]
   );
 
   return { handleLike };
