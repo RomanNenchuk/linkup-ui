@@ -11,6 +11,7 @@ export default function CommentInput({ user, newComment, setNewComment, onSend, 
         position: "sticky",
         top: 0,
         backgroundColor: "background.default",
+        alignItems: "flex-start",
         zIndex: 2,
         py: 3,
       }}
