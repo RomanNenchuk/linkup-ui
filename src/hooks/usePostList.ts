@@ -6,28 +6,33 @@ export type PagedResult<T> = {
   nextCursor: string | null;
 };
 
-export function usePostList(
-  sort: PostSortType,
-  latitude?: number,
-  longitude?: number,
-  radius?: number,
+type PostParams = {
+  sort: PostSortType;
+  latitude?: number;
+  longitude?: number;
+  radius?: number;
+  pageSize?: number;
+  authorId?: string;
+};
+
+type UsePostListParams = PostParams & {
+  enabled?: boolean;
+};
+
+export function usePostList({
+  sort,
+  latitude,
+  longitude,
+  radius,
+  authorId,
   enabled = true,
-  pageSize = 10
-) {
+  pageSize = 10,
+}: UsePostListParams) {
   const infiniteQuery = useInfiniteQuery<
     PagedResult<Post>,
     Error,
     InfiniteData<PagedResult<Post>>,
-    [
-      string,
-      {
-        sort: PostSortType;
-        pageSize: number;
-        latitude?: number;
-        longitude?: number;
-        radius?: number;
-      },
-    ],
+    [string, PostParams],
     string | null
   >({
     queryKey: [
@@ -38,6 +43,7 @@ export function usePostList(
         ...(latitude !== undefined && { latitude }),
         ...(longitude !== undefined && { longitude }),
         ...(radius !== undefined && { radius }),
+        ...(authorId !== undefined && { authorId }),
       },
     ],
     queryFn: ({ pageParam }) =>
@@ -48,6 +54,7 @@ export function usePostList(
         latitude,
         longitude,
         radius,
+        authorId,
       }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
     initialPageParam: null,

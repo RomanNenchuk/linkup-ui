@@ -34,14 +34,14 @@ function LocationsPage() {
 
   const mapCenter: [number, number] | undefined = latitude && longitude ? [latitude, longitude] : undefined;
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList(
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList({
     sort,
     latitude,
     longitude,
     radius,
-    !!mapCenter
-  );
-  const { handleLike } = usePostListToggleLike(sort, latitude, longitude, radius);
+    enabled: !!mapCenter,
+  });
+  const { handleLike } = usePostListToggleLike({ sort, latitude, longitude, radius });
 
   const posts = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);
 

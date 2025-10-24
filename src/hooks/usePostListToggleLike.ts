@@ -3,13 +3,23 @@ import { togglePostLike } from "../api/posts";
 import type { PagedResult } from "./usePostList";
 import { useCallback } from "react";
 
-export function usePostListToggleLike(
-  sort: PostSortType,
-  latitude?: number,
-  longitude?: number,
-  radius?: number,
-  pageSize = 10
-) {
+type UsePostListToggleLikeParams = {
+  sort: PostSortType;
+  latitude?: number;
+  longitude?: number;
+  radius?: number;
+  pageSize?: number;
+  authorId?: string;
+};
+
+export function usePostListToggleLike({
+  sort,
+  latitude,
+  longitude,
+  radius,
+  pageSize = 10,
+  authorId,
+}: UsePostListToggleLikeParams) {
   const queryClient = useQueryClient();
 
   const toggleLikeMutation = useMutation({
@@ -30,6 +40,7 @@ export function usePostListToggleLike(
             ...(latitude !== undefined && { latitude }),
             ...(longitude !== undefined && { longitude }),
             ...(radius !== undefined && { radius }),
+            ...(authorId !== undefined && { authorId }),
           },
         ],
         (oldData) => {

@@ -35,8 +35,8 @@ export default function PostsListPage() {
     });
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList(sort);
-  const { handleLike } = usePostListToggleLike(sort);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } = usePostList({ sort });
+  const { handleLike } = usePostListToggleLike({ sort });
 
   const posts = useMemo(() => data?.pages.flatMap((page) => page.items) ?? [], [data]);
 

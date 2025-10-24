@@ -42,6 +42,7 @@ type FetchPostsProps = {
   longitude?: number;
   radius?: number;
   pageSize: number | null;
+  authorId?: string;
 };
 
 type BoundsType = {

@@ -19,6 +19,7 @@ export const fetchPosts = async ({
   longitude,
   radius,
   pageSize,
+  authorId,
 }: FetchPostsProps): Promise<PagedResult<Post>> => {
   const response = await apiClient.get("/posts", {
     params: {
@@ -28,6 +29,7 @@ export const fetchPosts = async ({
       longitude,
       radius,
       pageSize: pageSize ?? 10,
+      authorId,
     },
   });
   return response.data;
