@@ -1,30 +1,29 @@
 import { Box, Typography } from "@mui/material";
 
-type FollowersInfoProps = {
+export default function FollowersInfo({
+  followersCount,
+  followingCount,
+  compact = false,
+}: {
   followersCount?: number;
   followingCount?: number;
-};
-
-export default function FollowersInfo({ followersCount, followingCount }: FollowersInfoProps) {
+  compact?: boolean;
+}) {
   return (
-    <Box sx={{ display: "flex", gap: 3, justifyContent: "center", mb: 2 }}>
-      <Box sx={{ textAlign: "center" }}>
-        <Typography variant="h6" fontWeight="bold">
-          {followersCount ?? 0}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Followers
-        </Typography>
-      </Box>
-
-      <Box sx={{ textAlign: "center" }}>
-        <Typography variant="h6" fontWeight="bold">
-          {followingCount ?? 0}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Following
-        </Typography>
-      </Box>
+    <Box
+      sx={{
+        display: "flex",
+        gap: 2,
+        justifyContent: "center",
+        mt: compact ? 0.5 : 1,
+      }}
+    >
+      <Typography variant="body2">
+        <strong>{followersCount ?? 0}</strong> Followers
+      </Typography>
+      <Typography variant="body2">
+        <strong>{followingCount ?? 0}</strong> Following
+      </Typography>
     </Box>
   );
 }

@@ -2,27 +2,24 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import { Box, Typography } from "@mui/material";
 import UserAvatar from "../auth/UserAvatar";
 
-export default function ProfileHeader({ user }: { user: User }) {
+export default function ProfileHeader({ user }: { user: User; compact?: boolean }) {
   return (
     <Box
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: 2,
-        mb: 2,
-        flexDirection: {
-          xs: "column",
-          sm: "row",
-        },
+        gap: 1.5,
       }}
     >
-      <UserAvatar id={user.id} displayName={user.displayName} size={64} />
+      <UserAvatar id={user.id} displayName={user.displayName} size={48} />
       <Box>
-        <Box display="flex" alignItems="center" gap={1}>
-          <Typography variant="h6">{user.displayName}</Typography>
-          {user.isVerified && <VerifiedIcon color="primary" />}
+        <Box display="flex" alignItems="center" gap={0.5}>
+          <Typography variant="subtitle1" fontWeight={500} noWrap maxWidth={180}>
+            {user.displayName}
+          </Typography>
+          {user.isVerified && <VerifiedIcon color="primary" fontSize="small" sx={{ verticalAlign: "middle" }} />}
         </Box>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="subtitle2" color="text.secondary" noWrap>
           {user.email}
         </Typography>
       </Box>

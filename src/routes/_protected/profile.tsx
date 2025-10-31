@@ -70,7 +70,13 @@ function ProfilePage() {
               }}
             >
               <ProfileHeader user={user} />
-              <Button variant="contained" disabled={isPending} onClick={() => handleLogout()}>
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ my: "auto" }}
+                disabled={isPending}
+                onClick={() => handleLogout()}
+              >
                 Log out
               </Button>
             </Box>
