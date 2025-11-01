@@ -14,7 +14,7 @@ export default function ProfileHeader({ user }: { user: User; compact?: boolean 
       <UserAvatar id={user.id} displayName={user.displayName} size={48} />
       <Box>
         <Box display="flex" alignItems="center" gap={0.5}>
-          <Typography variant="subtitle1" fontWeight={500} noWrap maxWidth={180}>
+          <Typography variant="h6" fontWeight={500} noWrap maxWidth={180}>
             {user.displayName}
           </Typography>
           {user.isVerified && <VerifiedIcon color="primary" fontSize="small" sx={{ verticalAlign: "middle" }} />}

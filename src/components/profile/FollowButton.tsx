@@ -16,6 +16,7 @@ export default function FollowButton({ user, handleFollowToggle, isToggleFollowP
         fontWeight: 500,
         px: 2,
         minWidth: 100,
+        width: { xs: "70%", sm: "auto" },
       }}
     >
       {user.isFollowing ? "Unfollow" : "Follow"}

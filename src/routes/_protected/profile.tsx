@@ -67,13 +67,14 @@ function ProfilePage() {
                 alignItems: { xs: "center", sm: "start" },
                 justifyContent: "space-between",
                 flexDirection: { xs: "column", sm: "row" },
+                gap: 3,
               }}
             >
               <ProfileHeader user={user} />
               <Button
                 variant="contained"
                 size="small"
-                sx={{ my: "auto" }}
+                sx={{ my: "auto", width: { xs: "80%", sm: "auto" } }}
                 disabled={isPending}
                 onClick={() => handleLogout()}
               >

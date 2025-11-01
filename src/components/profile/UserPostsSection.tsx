@@ -30,7 +30,7 @@ export default function UserPostsSection({ userId }: { userId: string }) {
   });
 
   return (
-    <Box sx={{ px: { xs: 2, sm: 4 }, width: "100%" }}>
+    <Box sx={{ px: { sm: 4 }, width: "100%" }}>
       <Box sx={{ maxWidth: 600, mx: "auto" }}>
         {isLoading ? (
           <PostsLoading />
