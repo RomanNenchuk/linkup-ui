@@ -38,7 +38,10 @@ export default function Heatmap({ style, selectedCluster }: HeatMapProps) {
       style={{ outline: "none", ...style }}
       className="no-outline"
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+      />
       <HeatmapLayer
         points={heatmapPoints?.map((p: any) => [p.latitude, p.longitude, p.count])}
         onBoundsChange={setBounds}

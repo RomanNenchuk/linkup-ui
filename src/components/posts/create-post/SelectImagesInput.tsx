@@ -25,7 +25,14 @@ export default function SelectImagesInput({
       sx={{ textTransform: "none" }}
     >
       {isMaxReached ? "Max images reached" : "Add Photos"}
-      <input type="file" hidden multiple accept="image/*" onChange={handleImageSelect} disabled={isMaxReached} />
+      <input
+        type="file"
+        style={{ opacity: 0, position: "absolute", left: 0, top: 0, width: "100%", height: "100%" }}
+        multiple
+        accept="image/*"
+        onChange={handleImageSelect}
+        disabled={isMaxReached}
+      />
     </Button>
   );
 }
