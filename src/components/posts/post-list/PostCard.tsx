@@ -19,8 +19,8 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
 
   return (
     <Card sx={{ mb: 2, ...sx }}>
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1 }}>
+      <CardContent sx={{ p: 2, display: "flex", alignItems: "flex-start", gap: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
           <Link
             to={user?.id === post.author.id ? "/profile" : "/users/$userId"}
             params={user?.id === post.author.id ? undefined : { userId: post.author.id }}
@@ -31,7 +31,9 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
               displayName={post.author?.displayName ?? "Unknown User"}
             />
           </Link>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
+        </Box>
+        <Box sx={{ flexGrow: 1, minWidth: 0, overflow: "hidden" }}>
+          <Box sx={{ mb: 1 }}>
             <Typography variant="subtitle2" fontWeight={600} noWrap>
               <Link
                 to={user?.id === post.author.id ? "/profile" : "/users/$userId"}
@@ -45,12 +47,13 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
             </Typography>
 
             {post.address && post.latitude && post.longitude && (
-              <Box sx={{ display: "flex", alignItems: "center", minWidth: 0 }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Typography
                   variant="caption"
                   color={theme.palette.text.secondary}
+                  textOverflow="ellipsis"
+                  overflow="hidden"
                   noWrap
-                  sx={{ flex: 1, textOverflow: "ellipsis", overflow: "hidden" }}
                 >
                   <Link
                     to="/locations"
@@ -67,40 +70,40 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
               </Box>
             )}
           </Box>
-        </Box>
 
-        <Typography variant="body2" sx={{ mb: 1, color: "black" }}>
-          {post.title}
-        </Typography>
-
-        {post.content && (
-          <Typography variant="body2" sx={{ mb: 1.5, lineHeight: 1.5 }}>
-            {post.content}
-          </Typography>
-        )}
-
-        <PostPhotos photos={post.photos} />
-
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, pt: 1 }}>
-          <IconButton
-            onClick={() => handleLike(post.id, !!post.isLikedByCurrentUser)}
-            color={post.isLikedByCurrentUser ? "error" : "default"}
-            size="small"
-          >
-            {post.isLikedByCurrentUser ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
-          </IconButton>
-          <Typography variant="caption" color={theme.palette.text.secondary}>
-            {post.reactionCount || 0}
+          <Typography variant="body2" sx={{ mb: 1, color: "black" }}>
+            {post.title}
           </Typography>
 
-          <Link to="/posts/$postId" params={{ postId: post.id }}>
-            <IconButton color="default" size="small">
-              <Comment fontSize="small" />
+          {post.content && (
+            <Typography variant="body2" sx={{ mb: 1.5, lineHeight: 1.5 }}>
+              {post.content}
+            </Typography>
+          )}
+
+          <PostPhotos photos={post.photos} />
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, pt: 1 }}>
+            <IconButton
+              onClick={() => handleLike(post.id, !!post.isLikedByCurrentUser)}
+              color={post.isLikedByCurrentUser ? "error" : "default"}
+              size="small"
+            >
+              {post.isLikedByCurrentUser ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
             </IconButton>
             <Typography variant="caption" color={theme.palette.text.secondary}>
-              {post.commentCount || 0}
+              {post.reactionCount || 0}
             </Typography>
-          </Link>
+
+            <Link to="/posts/$postId" params={{ postId: post.id }}>
+              <IconButton color="default" size="small">
+                <Comment fontSize="small" />
+              </IconButton>
+              <Typography variant="caption" color={theme.palette.text.secondary}>
+                {post.commentCount || 0}
+              </Typography>
+            </Link>
+          </Box>
         </Box>
       </CardContent>
     </Card>
