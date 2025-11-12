@@ -33,9 +33,9 @@ const theme = createTheme({
       contrastText: "#ffffff",
     },
     toast: {
-      main: "#fff8e1",
-      dark: "#ffe082",
-      contrastText: "#4a3c00",
+      main: "#424242",
+      dark: "#212121",
+      contrastText: "#ffffff",
     },
     background: {
       default: "#f0f7f4",
