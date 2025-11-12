@@ -61,9 +61,9 @@ export default function PostPhotos({ photos }: { photos: PostPhoto[] }) {
               sx={{
                 flex: "0 0 auto",
                 position: "relative",
-                height: isMobile ? 180 : 260,
-                minWidth: isMobile ? 160 : 220,
-                maxWidth: isMobile ? 280 : 400,
+                height: 200,
+                width: "auto",
+                maxWidth: 260,
                 overflow: "hidden",
                 mr: index !== photos.length - 1 ? 1 : 0,
               }}
