@@ -1,6 +1,16 @@
 import UserAvatar from "@/components/auth/UserAvatar";
 import { Favorite, Comment, FavoriteBorder } from "@mui/icons-material";
-import { Card, CardContent, Box, Typography, IconButton, type SxProps, type Theme, useTheme } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  IconButton,
+  type SxProps,
+  type Theme,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import PostPhotos from "./PostPhotos";
 import { memo } from "react";
@@ -16,10 +26,11 @@ type PostCardProps = {
 const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps) {
   const { user } = useAuth();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    <Card sx={{ mb: 2, ...sx }}>
-      <CardContent sx={{ display: "flex", alignItems: "flex-start", gap: 1, pb: 0 }}>
+    <Card sx={{ ...sx }}>
+      <CardContent sx={{ display: "flex", alignItems: "flex-start", gap: 1, pt: 2, pb: 0, px: isMobile ? 1.5 : 3 }}>
         <Box sx={{ display: "flex", alignItems: "center", mt: 0.3 }}>
           <Link
             to={user?.id === post.author.id ? "/profile" : "/users/$userId"}
@@ -85,7 +96,15 @@ const PostCard = memo(function PostCard({ post, handleLike, sx }: PostCardProps)
 
       <PostPhotos photos={post.photos} />
 
-      <CardContent sx={{ display: "flex", alignItems: "flex-start", gap: 1, pl: "60px", pt: 0 }}>
+      <CardContent
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 1,
+          py: "8px !important",
+          pl: "60px",
+        }}
+      >
         <Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, pt: 1 }}>
             <IconButton

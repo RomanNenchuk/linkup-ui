@@ -45,42 +45,40 @@ export default function PostPhotos({ photos }: { photos: PostPhoto[] }) {
   return (
     <Box mt={1}>
       <PhotoProvider>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            overflowX: "auto",
-            pl: "60px",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": { display: "none" },
-          }}
-        >
-          {photos.map((photo, index) => (
+        <Box mt={1}>
+          <PhotoProvider>
             <Box
-              key={photo.id}
               sx={{
-                flex: "0 0 auto",
-                position: "relative",
-                height: 200,
-                width: "auto",
-                maxWidth: 260,
-                overflow: "hidden",
-                mr: index !== photos.length - 1 ? 1 : 0,
+                display: "flex",
+                gap: 1,
+                overflowX: "auto",
+                pl: "60px",
+                pr: 2,
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": { display: "none" },
               }}
             >
-              <PhotoView src={photo.url}>
-                <Box
-                  component="img"
-                  src={photo.url}
-                  alt={`Post image ${index + 1}`}
-                  loading="lazy"
-                  borderRadius={1}
-                  sx={{ width: "100%", height: "100%", objectFit: "cover", display: "block", cursor: "pointer" }}
-                />
-              </PhotoView>
+              {photos.map((photo, index) => (
+                <PhotoView key={photo.id} src={photo.url}>
+                  <Box
+                    component="img"
+                    src={photo.url}
+                    alt={`Post image ${index + 1}`}
+                    loading="lazy"
+                    sx={{
+                      flexShrink: 0,
+                      width: isMobile ? 160 : 200,
+                      height: isMobile ? 160 : 200,
+                      borderRadius: 2,
+                      objectFit: "cover",
+                      cursor: "pointer",
+                      backgroundColor: "#f0f0f0",
+                    }}
+                  />
+                </PhotoView>
+              ))}
             </Box>
-          ))}
-          <Box sx={{ flex: "0 0 auto", width: "16px" }} />
+          </PhotoProvider>
         </Box>
       </PhotoProvider>
     </Box>

@@ -55,7 +55,7 @@ export default function PostsListPage() {
 
       <FilteringTabs sort={sort} setFilter={setFilter} />
 
-      <Box sx={{ width: "100%", maxWidth: 650, px: { xs: 2 }, pb: 4, pt: 4, mx: "auto" }}>
+      <Box sx={{ width: "100%", maxWidth: 650, pb: 4, pt: 4, mx: "auto" }}>
         {isLoading ? (
           <PostsLoading />
         ) : isError ? (
@@ -63,7 +63,19 @@ export default function PostsListPage() {
         ) : posts.length === 0 ? (
           <PostsNotFound />
         ) : (
-          posts.map((post) => <PostCard key={post.id} post={post} handleLike={handleLike} />)
+          posts.map((post, index) => (
+            <PostCard
+              key={post.id}
+              sx={{
+                border: 1,
+                borderBottom: 0,
+                borderColor: "divider",
+                borderRadius: index === 0 ? "16px 16px 0 0" : 0,
+              }}
+              post={post}
+              handleLike={handleLike}
+            />
+          ))
         )}
 
         {/* Sentinel for IntersectionObserver */}
