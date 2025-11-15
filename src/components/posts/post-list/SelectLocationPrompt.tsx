@@ -6,7 +6,7 @@ export default function SelectLocationPrompt() {
       sx={{
         mb: 2,
         textAlign: "center",
-        bgcolor: "background.paper",
+        // bgcolor: "background.paper",
       }}
     >
       <CardContent sx={{ p: 3 }}>

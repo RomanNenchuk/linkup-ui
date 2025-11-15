@@ -14,7 +14,7 @@ interface PostsListProps {
 
 export default function PostsList({ posts, isLoading, isError, handleLike }: PostsListProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (isLoading) return <PostsLoading />;
   if (isError) return <PostsError />;

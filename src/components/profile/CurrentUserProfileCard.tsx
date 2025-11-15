@@ -23,14 +23,14 @@ export default function CurrentUserProfileCard({
   handleLogout,
 }: CurrentUserProfileCardType) {
   return (
-    <Box sx={{ width: "100%", maxWidth: 700, px: { xs: 2, sm: 4 } }}>
+    <Box sx={{ width: "100%", maxWidth: 650, mb: 2 }}>
       {isError && (
         <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} sx={{ mb: 2 }} severity="error">
           {extractApiErrorMessage(error, "Failed to logout. Please try again later")}
         </Alert>
       )}
       {!user.isVerified && <EmailVerificationCall handleVerifyEmail={handleVerifyEmail} />}
-      <Card sx={{ mb: 2 }}>
+      <Card>
         <CardContent>
           <Box
             sx={{

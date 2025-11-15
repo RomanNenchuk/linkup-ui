@@ -122,10 +122,11 @@ const theme = createTheme({
     },
     MuiCard: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.01)",
           backgroundColor: "#ffffff",
-        },
+          border: `1px solid ${theme.palette.divider}`,
+        }),
       },
     },
     MuiAppBar: {
