@@ -1,6 +1,5 @@
 import type { PagedResult } from "@/hooks/usePostList";
 import { apiClient } from "./clients";
-import axios from "axios";
 
 export async function createPost(data: FormData): Promise<string> {
   const response = await apiClient.post("/posts", data);
@@ -43,31 +42,14 @@ export const reverseGeocode = async ({
   longitude: number;
 }): Promise<string> => {
   try {
-    const response = await axios.get("https://nominatim.openstreetmap.org/reverse", {
+    const response = await apiClient.get("/geo/reverse", {
       params: {
         lat: latitude,
         lon: longitude,
-        format: "json",
-        addressdetails: 1,
-        "accept-language": "en",
-        zoom: 10,
       },
     });
-
-    const addr = response.data.address;
-
-    if (!addr) return response.data.display_name || "";
-
-    const { city, town, village, suburb, state, country } = addr;
-
-    if (city) return city;
-    if (town) return town;
-    if (village) return village;
-    if (suburb && state) return `${suburb}, ${state}`;
-    if (state && country) return `${state}, ${country}`;
-    return country || response.data.display_name || "";
-  } catch (err) {
-    console.error("Reverse geocoding failed", err);
+    return response.data ?? "";
+  } catch (error: any) {
     return "";
   }
 };

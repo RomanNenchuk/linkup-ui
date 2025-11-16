@@ -30,7 +30,6 @@ export default function CreatePostPage() {
     selectedImages,
     location,
     setLocation,
-    userCurrentLocation,
   } = useCreatePost();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -74,7 +73,7 @@ export default function CreatePostPage() {
 
       <LocationModal
         open={modalOpen}
-        intialLocation={userCurrentLocation}
+        initialLocation={location}
         onClose={() => setModalOpen(false)}
         onSave={(loc) => setLocation(loc)}
       />

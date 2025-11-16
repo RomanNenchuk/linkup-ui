@@ -1,4 +1,4 @@
-import { createPost } from "@/api/posts";
+import { createPost, reverseGeocode } from "@/api/posts";
 import { MAX_IMAGES_COUNT } from "@/constants/posts";
 import { postSchema, type PostFormValues } from "@/schemas/postSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +11,6 @@ export default function useCreatePost() {
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [location, setLocation] = useState<PostLocation | null>(null);
-  const [userCurrentLocation, setUserCurrentLocation] = useState<PostLocation | null>(null);
 
   const {
     mutate: handleCreatePost,
@@ -53,7 +52,6 @@ export default function useCreatePost() {
   };
 
   const onSubmit = (data: PostFormValues) => {
-    console.log(data);
     const formData = new FormData();
 
     formData.append("Title", data.title);
@@ -75,9 +73,10 @@ export default function useCreatePost() {
       alert("Geolocation is not supported by your browser.");
       return;
     }
-    navigator.geolocation.getCurrentPosition((pos) => {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
       const { latitude, longitude } = pos.coords;
-      setUserCurrentLocation({ latitude, longitude, address: null });
+      const address = await reverseGeocode(pos.coords);
+      setLocation({ latitude, longitude, address });
     });
   };
 
@@ -99,6 +98,5 @@ export default function useCreatePost() {
     selectedImages,
     location,
     setLocation,
-    userCurrentLocation,
   };
 }
