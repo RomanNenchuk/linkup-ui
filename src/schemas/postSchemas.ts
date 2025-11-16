@@ -6,7 +6,7 @@ export const postSchema = z.object({
     .trim()
     .min(1, "Content is required")
     .min(3, "Content is too short")
-    .max(100, "Content must be at most 100 characters"),
+    .max(300, "Content must be at most 300 characters"),
   latitude: z.number().nullable().optional(),
   longitude: z.number().nullable().optional(),
   address: z.string().nullable().optional(),
