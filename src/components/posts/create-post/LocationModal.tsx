@@ -54,7 +54,7 @@ export default function LocationModal({ open, onClose, onSave, initialLocation }
         <TextField
           fullWidth
           label="Address"
-          value={location?.address}
+          value={location?.address ?? ""}
           onChange={(e) => updateAddress(e.target.value)}
         />
       </DialogContent>
