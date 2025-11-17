@@ -4,7 +4,7 @@ import RadiusPickerButton from "@/components/posts/location/RadiusPickerButton";
 import FilteringTabs from "@/components/posts/post-list/FilteringTabs";
 import PostsError from "@/components/posts/post-list/PostsError";
 import SelectLocationPrompt from "@/components/posts/post-list/SelectLocationPrompt";
-import { DEFAULT_ZOOM, SMALL_ZOOM } from "@/constants/posts";
+import { DEFAULT_ZOOM } from "@/constants/posts";
 import { usePostList } from "@/hooks/usePostList";
 import { usePostLocation } from "@/hooks/usePostLocation";
 import { usePostListToggleLike } from "@/hooks/usePostListToggleLike";
@@ -62,7 +62,7 @@ function LocationsPage() {
         <Map
           mapCenter={mapCenter}
           handleSelect={handleSelectLocation}
-          zoom={mapCenter ? DEFAULT_ZOOM : SMALL_ZOOM}
+          zoom={DEFAULT_ZOOM}
           boxStyles={{ height: 300 }}
         />
         <RadiusPickerButton radius={radiusValue} handleChangeRadius={handleChangeRadius} />
