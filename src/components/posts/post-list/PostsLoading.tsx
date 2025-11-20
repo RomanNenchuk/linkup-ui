@@ -1,16 +1,25 @@
-import { Box, Card, CardContent, Skeleton } from "@mui/material";
+import { getBorderRadius } from "@/utils/post-card/getBorderRadius";
+import { Box, Card, CardContent, Skeleton, useMediaQuery, useTheme } from "@mui/material";
 
 type PostsLoadingProps = {
   cardNumber?: number;
 };
 
 export default function PostsLoading({ cardNumber = 3 }: PostsLoadingProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <>
       {Array.from({ length: cardNumber }).map((_, index) => (
         <Card
           key={index}
-          sx={{ borderRadius: index === 0 ? "16px 16px 0 0" : 0, border: 1, borderBottom: 0, borderColor: "divider" }}
+          sx={{
+            borderRadius: getBorderRadius(index, cardNumber, isMobile),
+            border: 1,
+            borderBottom: 0,
+            borderColor: "divider",
+          }}
         >
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>

@@ -1,7 +1,6 @@
 import Header from "@/components/auth/Header";
-import { Box, Tabs, Tab } from "@mui/material";
+import { Box } from "@mui/material";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/api/users";
 import UserNotFoundState from "@/components/user/UserNotFoundState";
@@ -9,6 +8,8 @@ import UserLoadingState from "@/components/user/UserLoadingState";
 import UserProfileCard from "@/components/user/UserProfileCard";
 import UserPostsSection from "@/components/profile/UserPostsSection";
 import UserPostLocations from "@/components/maps/routemap/UserPostLocations";
+import { useUserTabs } from "@/hooks/useUserTabs";
+import UserTabs from "@/components/profile/UserTabs";
 
 export const Route = createFileRoute("/users/$userId")({
   component: UserPage,
@@ -16,20 +17,13 @@ export const Route = createFileRoute("/users/$userId")({
 
 function UserPage() {
   const { userId } = useParams({ from: "/users/$userId" });
-  const [activeTab, setActiveTab] = useState<"posts" | "map">("posts");
-  const mapRef = useRef<HTMLDivElement | null>(null);
+  const { activeTab, setActiveTab, mapRef } = useUserTabs();
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["users", userId],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
   });
-
-  useEffect(() => {
-    if (activeTab === "map" && mapRef.current) {
-      mapRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [activeTab]);
 
   if (isLoading) return <UserLoadingState />;
   if (!user) return <UserNotFoundState />;
@@ -47,20 +41,7 @@ function UserPage() {
         }}
       >
         <UserProfileCard user={user} />
-
-        <Box
-          sx={{
-            position: "sticky",
-            top: "env(safe-area-inset-top, 0px)",
-            zIndex: 20,
-            background: "background.paper",
-          }}
-        >
-          <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} centered variant="fullWidth">
-            <Tab label="Posts" value="posts" />
-            <Tab label="Route" value="map" />
-          </Tabs>
-        </Box>
+        <UserTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {activeTab === "posts" && <UserPostsSection userId={user.id} />}
         {activeTab === "map" && (

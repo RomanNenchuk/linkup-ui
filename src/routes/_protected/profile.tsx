@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Header from "@/components/auth/Header";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import { useProfilePage } from "@/hooks/useProfilePage";
 import UserLoadingState from "@/components/user/UserLoadingState";
 import CurrentUserProfileCard from "@/components/profile/CurrentUserProfileCard";
-import { useEffect, useRef, useState } from "react";
 import UserPostsSection from "@/components/profile/UserPostsSection";
 import UserPostLocations from "@/components/maps/routemap/UserPostLocations";
+import { useUserTabs } from "@/hooks/useUserTabs";
+import UserTabs from "@/components/profile/UserTabs";
 
 export const Route = createFileRoute("/_protected/profile")({
   component: ProfilePage,
@@ -14,14 +15,7 @@ export const Route = createFileRoute("/_protected/profile")({
 
 function ProfilePage() {
   const { user, handleVerifyEmail, handleLogout, isPending, isError, error } = useProfilePage();
-  const [activeTab, setActiveTab] = useState<"posts" | "map">("posts");
-  const mapRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (activeTab === "map" && mapRef.current) {
-      mapRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [activeTab]);
+  const { activeTab, setActiveTab, mapRef } = useUserTabs();
 
   if (!user) return <UserLoadingState />;
 
@@ -45,20 +39,7 @@ function ProfilePage() {
           error={error}
           isPending={isPending}
         />
-
-        <Box
-          sx={{
-            position: "sticky",
-            top: "env(safe-area-inset-top, 0px)",
-            zIndex: 20,
-            background: "background.paper",
-          }}
-        >
-          <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)} centered variant="fullWidth">
-            <Tab label="Posts" value="posts" />
-            <Tab label="Route" value="map" />
-          </Tabs>
-        </Box>
+        <UserTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {activeTab === "posts" && <UserPostsSection userId={user.id} />}
         {activeTab === "map" && (
