@@ -28,6 +28,11 @@ type LocationCoordinates = {
   longitude: number;
 };
 
+type TimestampedPostLocation = LocationCoordinates & {
+  postId: string;
+  createdAt: Date;
+};
+
 type PostLocation = LocationCoordinates & {
   address: string | null;
 };
