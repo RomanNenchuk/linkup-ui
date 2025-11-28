@@ -22,6 +22,7 @@ export default function PostPhotos({ photos }: { photos: PostPhoto[] }) {
               }}
             >
               <Box
+                className="no-nav"
                 component="img"
                 src={photos[0].url}
                 alt="Post image"
@@ -61,6 +62,7 @@ export default function PostPhotos({ photos }: { photos: PostPhoto[] }) {
               {photos.map((photo, index) => (
                 <PhotoView key={photo.id} src={photo.url}>
                   <Box
+                    className="no-nav"
                     component="img"
                     src={photo.url}
                     alt={`Post image ${index + 1}`}
